@@ -1,9 +1,10 @@
 .container {
-  @include flex-center;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   padding: 2rem 1rem;
-  background-color: var(--background-white);
+  background-color: #ffffff;
 }
 
 .card {

@@ -1,7 +1,13 @@
 .button {
-  @include button-reset;
-  @include flex-center;
-
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   border-radius: 0.5rem;
   font-weight: 500;
