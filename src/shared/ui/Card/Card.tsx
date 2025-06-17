@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Card.module.scss";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 
 interface CardProps {
   children: React.ReactNode;

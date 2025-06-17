@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Button.module.scss";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 
 type ButtonVariant = "primary" | "secondary" | "text";
 type ButtonSize = "small" | "medium" | "large";
