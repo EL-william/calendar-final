@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => ({
     },
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/shared/styles/globals.scss";`,
+        additionalData: `@import "${path.resolve(__dirname, "./src/shared/styles/globals.scss")}";`,
       },
     },
   },
