@@ -1,0 +1,23 @@
+.container {
+  @include flex-center;
+
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: var(--background-white);
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+}

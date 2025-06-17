@@ -14,4 +14,15 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  css: {
+    modules: {
+      localsConvention: "camelCaseOnly",
+      generateScopedName: "[name]__[local]___[hash:base64:5]",
+    },
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/shared/styles/globals.scss";`,
+      },
+    },
+  },
 }));
