@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import styles from "./Input.module.scss";
+import { cn } from "../../../lib/utils";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -12,9 +13,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
 
     return (
-      <div
-        className={[styles.wrapper, className || ""].filter(Boolean).join(" ")}
-      >
+      <div className={cn(styles.wrapper, className)}>
         {label && (
           <label htmlFor={inputId} className={styles.label}>
             {label}
@@ -23,16 +22,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
-          className={[styles.input, error ? styles.error : ""]
-            .filter(Boolean)
-            .join(" ")}
+          className={cn(styles.input, {
+            [styles.error]: error,
+          })}
           {...props}
         />
         {(error || helperText) && (
           <span
-            className={[styles.helper, error ? styles.errorText : ""]
-              .filter(Boolean)
-              .join(" ")}
+            className={cn(styles.helper, {
+              [styles.errorText]: error,
+            })}
           >
             {error || helperText}
           </span>

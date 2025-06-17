@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Card.module.scss";
+import { cn } from "../../../lib/utils";
 
 interface CardProps {
   children: React.ReactNode;
@@ -13,11 +14,7 @@ export const Card: React.FC<CardProps> = ({
   padding = "medium",
 }) => {
   return (
-    <div
-      className={[styles.card, styles[padding], className || ""]
-        .filter(Boolean)
-        .join(" ")}
-    >
+    <div className={cn(styles.card, styles[padding], className)}>
       {children}
     </div>
   );
