@@ -1,4 +1,6 @@
 import React from "react";
+import styles from "./Button.module.scss";
+import { cn } from "../../../lib/utils";
 
 type ButtonVariant = "primary" | "secondary" | "text";
 type ButtonSize = "small" | "medium" | "large";
@@ -21,24 +23,20 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={[
+      className={cn(
         styles.button,
         styles[variant],
         styles[size],
-        loading ? styles.loading : "",
-        className || "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+        {
+          [styles.loading]: loading,
+        },
+        className,
+      )}
       disabled={disabled || loading}
       {...props}
     >
       {loading && <span className={styles.spinner} />}
-      <span
-        className={[styles.content, loading ? styles.hidden : ""]
-          .filter(Boolean)
-          .join(" ")}
-      >
+      <span className={cn(styles.content, { [styles.hidden]: loading })}>
         {children}
       </span>
     </button>

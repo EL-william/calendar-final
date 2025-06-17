@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Typography.module.scss";
+import { cn } from "../../lib/utils";
 
 type TypographyVariant = "h1" | "h2" | "h3" | "body" | "caption" | "small";
 
@@ -19,11 +20,7 @@ export const Typography: React.FC<TypographyProps> = ({
   const Component = as || getDefaultComponent(variant);
 
   return (
-    <Component
-      className={[styles[variant], className || ""].filter(Boolean).join(" ")}
-    >
-      {children}
-    </Component>
+    <Component className={cn(styles[variant], className)}>{children}</Component>
   );
 };
 
