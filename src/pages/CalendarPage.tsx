@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Calendar } from "@/widgets/calendar";
 import { CalendarSidebar } from "@/widgets/calendar/components/CalendarSidebar/CalendarSidebar";
+import { TestTextParser } from "@/widgets/calendar/components/TestTextParser/TestTextParser";
 import { CalendarEvent } from "@/entities/calendar";
 import styles from "./CalendarPage.module.scss";
 
@@ -89,6 +90,12 @@ export const CalendarPage: React.FC = () => {
           isSidebarVisible ? styles.withSidebar : ""
         }`}
       >
+        <TestTextParser
+          onEventCreate={(event) => {
+            console.log("Test event created:", event);
+            // Тест создания события
+          }}
+        />
         <Calendar
           events={mockEvents}
           onDateClick={handleDateClick}
