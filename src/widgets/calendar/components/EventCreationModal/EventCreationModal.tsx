@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button, Card } from "../../../../shared/ui";
+import { Input, Button } from "../../../../shared/ui";
 import { Typography } from "../../../../shared/Typography/Typography";
 import { CalendarEvent, EventType } from "../../../../entities/calendar";
 import styles from "./EventCreationModal.module.scss";
@@ -146,7 +146,10 @@ export const EventCreationModal: React.FC<EventCreationModalProps> = ({
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <Card className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+      >
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.header}>
             <Typography variant="h3">
@@ -258,7 +261,7 @@ export const EventCreationModal: React.FC<EventCreationModalProps> = ({
             </Button>
           </div>
         </form>
-      </Card>
+      </div>
     </div>
   );
 };

@@ -1,9 +1,7 @@
 import React from "react";
 import {
-  CalendarMonth,
   DAYS_OF_WEEK,
   generateCalendarMonth,
-  addMonths,
   isSameDay,
 } from "@/entities/calendar";
 import { Button } from "@/shared/ui";
