@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input, Button } from "@/shared/ui";
 import { Typography } from "@/shared/Typography/Typography";
 import { LoginFormData } from "../../types";
@@ -7,6 +7,7 @@ import { authService } from "../../services/authService";
 import styles from "./LoginForm.module.scss";
 
 export const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -64,7 +65,8 @@ export const LoginForm: React.FC = () => {
     try {
       const user = await authService.login(formData);
       console.log("Успешный вход:", user);
-      // Здесь должен быть редирект или сохранение состояния пользователя
+      // Переход на страницу календаря после успешного входа
+      navigate("/calendar");
     } catch (error) {
       setServerError(
         error instanceof Error ? error.message : "Произошла ошибка",
