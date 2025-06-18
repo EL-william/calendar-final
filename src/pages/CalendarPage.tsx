@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Calendar } from "@/widgets/calendar";
 import { CalendarSidebar } from "@/widgets/calendar/components/CalendarSidebar/CalendarSidebar";
-import { TestTextParser } from "@/widgets/calendar/components/TestTextParser/TestTextParser";
 import { CalendarEvent } from "@/entities/calendar";
 import styles from "./CalendarPage.module.scss";
 
@@ -19,7 +18,7 @@ const mockEvents: CalendarEvent[] = [
   },
   {
     id: "2",
-    title: "Разработка фронтенда",
+    title: "Разраб����ка фронтенда",
     description: "Работа над календарным виджетом",
     startDate: new Date(2024, 11, 20, 14, 0),
     endDate: new Date(2024, 11, 20, 17, 0),
@@ -77,15 +76,6 @@ export const CalendarPage: React.FC = () => {
     setIsSidebarVisible((prev) => !prev);
   };
 
-  const handleEventCreate = (eventData: Omit<CalendarEvent, "id">) => {
-    const newEvent: CalendarEvent = {
-      ...eventData,
-      id: Date.now().toString(),
-    };
-    setEvents((prev) => [...prev, newEvent]);
-    console.log("Event created:", newEvent);
-  };
-
   return (
     <div className={styles.calendarPage}>
       <CalendarSidebar
@@ -100,12 +90,10 @@ export const CalendarPage: React.FC = () => {
           isSidebarVisible ? styles.withSidebar : ""
         }`}
       >
-        <TestTextParser onEventCreate={handleEventCreate} />
         <Calendar
           events={events}
           onDateClick={handleDateClick}
           onEventClick={handleEventClick}
-          onEventCreate={handleEventCreate}
         />
       </div>
     </div>
