@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "@/shared/ui";
-import { Typography } from "@/shared/Typography/Typography";
-import { CalendarView, CalendarEvent } from "@/entities/calendar";
+import { Button } from "../../../../shared/ui";
+import { Typography } from "../../../../shared/Typography/Typography";
+import { CalendarView, CalendarEvent } from "../../../../entities/calendar";
 import { QuickEventButton } from "../QuickEventButton/QuickEventButton";
 import styles from "./CalendarHeader.module.scss";
 

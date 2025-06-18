@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import { Input, Button } from "@/shared/ui";
-import { Typography } from "@/shared/Typography/Typography";
-import { CalendarEvent } from "@/entities/calendar";
+import { Input, Button } from "../../../../shared/ui";
+import { Typography } from "../../../../shared/Typography/Typography";
+import { CalendarEvent } from "../../../../entities/calendar";
 import {
   parseEventFromText,
   convertToCalendarEvent,

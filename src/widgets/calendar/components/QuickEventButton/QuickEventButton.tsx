@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button } from "@/shared/ui";
+import { Button } from "../../../../shared/ui";
 import { TextEventInput } from "../TextEventInput/TextEventInput";
-import { CalendarEvent } from "@/entities/calendar";
+import { CalendarEvent } from "../../../../entities/calendar";
 import styles from "./QuickEventButton.module.scss";
 
 interface QuickEventButtonProps {
