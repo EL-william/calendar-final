@@ -5,7 +5,7 @@ import { CalendarEvent } from "@/entities/calendar";
 import {
   parseEventFromText,
   convertToCalendarEvent,
-} from "@/entities/calendar/utils/textParser";
+} from "../../../../entities/calendar/utils/textParser";
 import styles from "./TextEventInput.module.scss";
 
 interface TextEventInputProps {
