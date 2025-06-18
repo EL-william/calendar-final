@@ -5,10 +5,29 @@
   flex-direction: column;
   background-color: #f8f9fa;
   overflow: hidden;
+  position: relative;
+}
+
+.calendarContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+
+  &.withSidebar {
+    margin-left: 280px;
+  }
 }
 
 @media (max-width: 768px) {
   .calendarPage {
     background-color: #ffffff;
+  }
+
+  .calendarContent {
+    &.withSidebar {
+      margin-left: 0;
+    }
   }
 }

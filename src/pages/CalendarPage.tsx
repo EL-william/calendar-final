@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Calendar } from "@/widgets/calendar";
+import { CalendarSidebar } from "@/widgets/calendar/components/CalendarSidebar/CalendarSidebar";
 import { CalendarEvent } from "@/entities/calendar";
 import styles from "./CalendarPage.module.scss";
 
@@ -53,21 +54,47 @@ const mockEvents: CalendarEvent[] = [
 ];
 
 export const CalendarPage: React.FC = () => {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
   const handleDateClick = (date: Date) => {
+    setSelectedDate(date);
     console.log("Выбрана дата:", date);
+  };
+
+  const handleSidebarDateSelect = (date: Date) => {
+    setSelectedDate(date);
+    console.log("Выбрана дата из sidebar:", date);
   };
 
   const handleEventClick = (event: CalendarEvent) => {
     console.log("Выбрано событие:", event);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
   return (
     <div className={styles.calendarPage}>
-      <Calendar
-        events={mockEvents}
-        onDateClick={handleDateClick}
-        onEventClick={handleEventClick}
+      <CalendarSidebar
+        isVisible={isSidebarVisible}
+        onToggle={toggleSidebar}
+        selectedDate={selectedDate}
+        onDateSelect={handleSidebarDateSelect}
       />
+
+      <div
+        className={`${styles.calendarContent} ${
+          isSidebarVisible ? styles.withSidebar : ""
+        }`}
+      >
+        <Calendar
+          events={mockEvents}
+          onDateClick={handleDateClick}
+          onEventClick={handleEventClick}
+        />
+      </div>
     </div>
   );
 };
