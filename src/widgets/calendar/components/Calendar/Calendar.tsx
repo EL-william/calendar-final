@@ -19,12 +19,14 @@ interface CalendarProps {
   events?: CalendarEvent[];
   onDateClick?: (date: Date) => void;
   onEventClick?: (event: CalendarEvent) => void;
+  onEventCreate?: (event: Omit<CalendarEvent, "id">) => void;
 }
 
 export const Calendar: React.FC<CalendarProps> = ({
   events = [],
   onDateClick,
   onEventClick,
+  onEventCreate: externalOnEventCreate,
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<CalendarView>("month");
@@ -44,11 +46,15 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const handleCreateEvent = (eventData: Omit<CalendarEvent, "id">) => {
-    const newEvent: CalendarEvent = {
-      ...eventData,
-      id: Date.now().toString(),
-    };
-    setCalendarEvents((prev) => [...prev, newEvent]);
+    if (externalOnEventCreate) {
+      externalOnEventCreate(eventData);
+    } else {
+      const newEvent: CalendarEvent = {
+        ...eventData,
+        id: Date.now().toString(),
+      };
+      setCalendarEvents((prev) => [...prev, newEvent]);
+    }
   };
 
   const handleCloseEventModal = () => {

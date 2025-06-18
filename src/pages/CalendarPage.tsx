@@ -57,6 +57,7 @@ const mockEvents: CalendarEvent[] = [
 export const CalendarPage: React.FC = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [events, setEvents] = useState<CalendarEvent[]>(mockEvents);
 
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
@@ -76,6 +77,15 @@ export const CalendarPage: React.FC = () => {
     setIsSidebarVisible((prev) => !prev);
   };
 
+  const handleEventCreate = (eventData: Omit<CalendarEvent, "id">) => {
+    const newEvent: CalendarEvent = {
+      ...eventData,
+      id: Date.now().toString(),
+    };
+    setEvents((prev) => [...prev, newEvent]);
+    console.log("Event created:", newEvent);
+  };
+
   return (
     <div className={styles.calendarPage}>
       <CalendarSidebar
@@ -90,16 +100,12 @@ export const CalendarPage: React.FC = () => {
           isSidebarVisible ? styles.withSidebar : ""
         }`}
       >
-        <TestTextParser
-          onEventCreate={(event) => {
-            console.log("Test event created:", event);
-            // Тест создания события
-          }}
-        />
+        <TestTextParser onEventCreate={handleEventCreate} />
         <Calendar
-          events={mockEvents}
+          events={events}
           onDateClick={handleDateClick}
           onEventClick={handleEventClick}
+          onEventCreate={handleEventCreate}
         />
       </div>
     </div>
