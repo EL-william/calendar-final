@@ -95,6 +95,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         view={view}
         onViewChange={setView}
         onNavigate={handleNavigate}
+        onEventCreate={handleCreateEvent}
         title={getTitle()}
       />
 

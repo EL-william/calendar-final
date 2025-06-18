@@ -24,3 +24,7 @@ export {
   formatDateForDisplay,
   formatTimeForDisplay,
 } from "./utils/dateUtils";
+
+export { parseEventFromText, convertToCalendarEvent } from "./utils/textParser";
+
+export type { ParsedEvent } from "./utils/textParser";

@@ -5,3 +5,5 @@ export { WeekView } from "./components/WeekView/WeekView";
 export { EventModal } from "./components/EventModal/EventModal";
 export { MiniCalendar } from "./components/MiniCalendar/MiniCalendar";
 export { CalendarSidebar } from "./components/CalendarSidebar/CalendarSidebar";
+export { TextEventInput } from "./components/TextEventInput/TextEventInput";
+export { QuickEventButton } from "./components/QuickEventButton/QuickEventButton";

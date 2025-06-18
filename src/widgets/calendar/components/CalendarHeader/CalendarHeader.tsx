@@ -1,7 +1,8 @@
 import React from "react";
 import { Button } from "@/shared/ui";
 import { Typography } from "@/shared/Typography/Typography";
-import { CalendarView } from "@/entities/calendar";
+import { CalendarView, CalendarEvent } from "@/entities/calendar";
+import { QuickEventButton } from "../QuickEventButton/QuickEventButton";
 import styles from "./CalendarHeader.module.scss";
 
 interface CalendarHeaderProps {
@@ -9,6 +10,7 @@ interface CalendarHeaderProps {
   view: CalendarView;
   onViewChange: (view: CalendarView) => void;
   onNavigate: (direction: "prev" | "next" | "today") => void;
+  onEventCreate: (event: Omit<CalendarEvent, "id">) => void;
   title: string;
 }
 
@@ -17,6 +19,7 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   view,
   onViewChange,
   onNavigate,
+  onEventCreate,
   title,
 }) => {
   return (
@@ -55,23 +58,27 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         </Typography>
       </div>
 
-      <div className={styles.viewSelector}>
-        <Button
-          variant={view === "month" ? "primary" : "text"}
-          size="small"
-          onClick={() => onViewChange("month")}
-          className={styles.viewButton}
-        >
-          Месяц
-        </Button>
-        <Button
-          variant={view === "week" ? "primary" : "text"}
-          size="small"
-          onClick={() => onViewChange("week")}
-          className={styles.viewButton}
-        >
-          Неделя
-        </Button>
+      <div className={styles.rightSection}>
+        <QuickEventButton onEventCreate={onEventCreate} />
+
+        <div className={styles.viewSelector}>
+          <Button
+            variant={view === "month" ? "primary" : "text"}
+            size="small"
+            onClick={() => onViewChange("month")}
+            className={styles.viewButton}
+          >
+            Месяц
+          </Button>
+          <Button
+            variant={view === "week" ? "primary" : "text"}
+            size="small"
+            onClick={() => onViewChange("week")}
+            className={styles.viewButton}
+          >
+            Неделя
+          </Button>
+        </div>
       </div>
     </div>
   );
