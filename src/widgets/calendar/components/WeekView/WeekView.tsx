@@ -7,6 +7,8 @@ interface WeekViewProps {
   week: CalendarWeek;
   events: CalendarEvent[];
   onDateClick: (date: Date) => void;
+  onTimeSlotClick?: (date: Date, hour: number) => void;
+  onDayHeaderClick?: (date: Date) => void;
   selectedDate: Date | null;
 }
 
@@ -14,6 +16,8 @@ export const WeekView: React.FC<WeekViewProps> = ({
   week,
   events,
   onDateClick,
+  onTimeSlotClick,
+  onDayHeaderClick,
   selectedDate,
 }) => {
   const timeSlots = Array.from({ length: 24 }, (_, i) => i);
@@ -57,7 +61,13 @@ export const WeekView: React.FC<WeekViewProps> = ({
               } ${isSelected ? styles.selected : ""}`}
               onClick={() => onDateClick(day.date)}
             >
-              <div className={styles.dayHeader}>
+              <div
+                className={styles.dayHeader}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDayHeaderClick?.(day.date);
+                }}
+              >
                 <Typography variant="caption" className={styles.dayName}>
                   {DAYS_OF_WEEK[index]}
                 </Typography>
@@ -87,12 +97,17 @@ export const WeekView: React.FC<WeekViewProps> = ({
               const dayEvents = getEventsForDateAndHour(day.date, hour);
 
               return (
-                <div key={dayIndex} className={styles.hourCell}>
+                <div
+                  key={dayIndex}
+                  className={styles.hourCell}
+                  onClick={() => onTimeSlotClick?.(day.date, hour)}
+                >
                   {dayEvents.map((event) => (
                     <div
                       key={event.id}
                       className={styles.event}
                       style={{ backgroundColor: event.color }}
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <Typography variant="small" className={styles.eventTitle}>
                         {event.title}
