@@ -54,7 +54,6 @@ const mockEvents: CalendarEvent[] = [
 ];
 
 export const CalendarPage: React.FC = () => {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [events, setEvents] = useState<CalendarEvent[]>(mockEvents);
 
@@ -72,24 +71,14 @@ export const CalendarPage: React.FC = () => {
     console.log("Выбрано событие:", event);
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarVisible((prev) => !prev);
-  };
-
   return (
     <div className={styles.calendarPage}>
       <CalendarSidebar
-        isVisible={isSidebarVisible}
-        onToggle={toggleSidebar}
         selectedDate={selectedDate}
         onDateSelect={handleSidebarDateSelect}
       />
 
-      <div
-        className={`${styles.calendarContent} ${
-          isSidebarVisible ? styles.withSidebar : ""
-        }`}
-      >
+      <div className={styles.calendarContent}>
         <Calendar
           events={events}
           onDateClick={handleDateClick}

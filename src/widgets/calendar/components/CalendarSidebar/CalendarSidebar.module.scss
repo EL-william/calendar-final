@@ -1,44 +1,9 @@
-.toggleButton {
-  position: fixed;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 200;
-  background-color: #ffffff;
-  border: 1px solid #dadce0;
-  border-left: none;
-  border-radius: 0 0.5rem 0.5rem 0;
-  padding: 0.5rem 0.25rem;
-  min-width: auto;
-  width: 2rem;
-  height: 3rem;
-  font-size: 0.875rem;
-  color: #666666;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #f8f9fa;
-    color: #4285f4;
-  }
-}
-
 .sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
   width: 280px;
   background-color: #f8f9fa;
   border-right: 1px solid #dadce0;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 150;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-
-  &.visible {
-    transform: translateX(0);
-  }
+  height: 100%;
+  flex-shrink: 0;
 }
 
 .sidebarContent {
