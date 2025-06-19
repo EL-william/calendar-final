@@ -22,7 +22,7 @@ export const UserProfilePage: React.FC = () => {
   }
 
   const handleEditProfile = () => {
-    // TODO: Реализовать редактиро��ание профиля
+    // TODO: Реализовать редактирование профиля
     console.log("Редактирование профиля");
   };
 
@@ -98,10 +98,10 @@ export const UserProfilePage: React.FC = () => {
 
           <div className={styles.infoItem}>
             <Typography variant="caption" className={styles.infoLabel}>
-              Часовой пояс
+              Номер телефона
             </Typography>
             <Typography variant="body" className={styles.infoValue}>
-              {user.timezone || (
+              {user.phoneNumber || (
                 <span className={styles.emptyValue}>Не указан</span>
               )}
             </Typography>

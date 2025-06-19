@@ -4,7 +4,7 @@ export interface User {
   lastName: string;
   email: string;
   dateOfBirth?: string;
-  timezone?: string;
+  phoneNumber?: string;
 }
 
 export interface AuthData {
