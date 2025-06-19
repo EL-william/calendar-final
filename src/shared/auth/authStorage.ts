@@ -3,6 +3,8 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  dateOfBirth?: string;
+  timezone?: string;
 }
 
 export interface AuthData {
