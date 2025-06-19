@@ -1,0 +1,104 @@
+.tester {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border: 1px solid #dadce0;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.info {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.results {
+  background-color: #f8f9fa;
+  border: 1px solid #e8eaed;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.resultsTitle {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.resultsList {
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border: 1px solid #e8eaed;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+
+.noResults {
+  color: #666666;
+  font-style: italic;
+}
+
+.resultItem {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.instructions {
+  background-color: #e8f0fe;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid #4285f4;
+}
+
+.stepsList {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+
+  li {
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .tester {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buttons button {
+    width: 100%;
+    max-width: 200px;
+  }
+}

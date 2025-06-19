@@ -33,8 +33,17 @@ export interface User {
 
 export const authApi = {
   async register(data: RegisterRequest): Promise<{ userId: string }> {
-    const response = await apiClient.post("/register", data);
-    return response.data;
+    try {
+      const response = await apiClient.post("/register", data);
+      return response.data;
+    } catch (error: any) {
+      // Обработка ошибок от бэкенда
+      if (error.response?.status === 400) {
+        const errorData = error.response.data;
+        throw new Error(errorData.message || "Ошибка валидации данных");
+      }
+      throw error;
+    }
   },
 
   async login(data: LoginRequest): Promise<AuthTokens> {

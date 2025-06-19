@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// Базовый URL для API - настройте под ваш бэкенд
+// Базовый URL для API бэкенда
 const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:3001/api";
+  process.env.REACT_APP_API_URL || "http://localhost:8080/auth/api/v1";
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
