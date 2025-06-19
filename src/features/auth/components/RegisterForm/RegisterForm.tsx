@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input, Button } from "@/shared/ui";
 import { Typography } from "@/shared/Typography/Typography";
-import { useAppDispatch, useAppSelector } from "../../../../app/store/hooks";
-import { registerUser, clearError } from "../../../../app/store/authSlice";
+import { registerUser } from "@/shared/auth/authStorage";
 import styles from "./RegisterForm.module.scss";
 
 interface RegisterFormData {
@@ -15,10 +14,6 @@ interface RegisterFormData {
 
 export const RegisterForm: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { isLoading, error: serverError } = useAppSelector(
-    (state) => state.auth,
-  );
 
   const [formData, setFormData] = useState<RegisterFormData>({
     firstName: "",
@@ -27,14 +22,9 @@ export const RegisterForm: React.FC = () => {
     password: "",
   });
   const [errors, setErrors] = useState<Partial<RegisterFormData>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
-
-  useEffect(() => {
-    // Очищаем ошибку при размонтировании компонента
-    return () => {
-      dispatch(clearError());
-    };
-  }, [dispatch]);
 
   const handleInputChange =
     (field: keyof RegisterFormData) =>
@@ -53,7 +43,7 @@ export const RegisterForm: React.FC = () => {
       }
 
       if (serverError) {
-        dispatch(clearError());
+        setServerError(null);
       }
     };
 
@@ -93,16 +83,24 @@ export const RegisterForm: React.FC = () => {
 
     if (!validateForm()) return;
 
+    setIsLoading(true);
+    setServerError(null);
+
     try {
-      await dispatch(registerUser(formData)).unwrap();
-      setRegistrationSuccess(true);
-      // Показываем сообщение об успешной регистрации
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      const result = await registerUser(formData);
+
+      if (result.success) {
+        setRegistrationSuccess(true);
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } else {
+        setServerError(result.message || "Ошибка регистрации");
+      }
     } catch (error) {
-      // Ошибка уже обработана в Redux
-      console.error("Registration error:", error);
+      setServerError("Произошла ошибка. Попробуйте снова.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -133,7 +131,7 @@ export const RegisterForm: React.FC = () => {
         <Input
           type="text"
           label="Имя"
-          placeholder="Введите ваше имя"
+          placeholder="Введите ваше ��мя"
           value={formData.firstName}
           onChange={handleInputChange("firstName")}
           error={errors.firstName}
