@@ -17,6 +17,10 @@ export const AppHeader: React.FC = () => {
     navigate("/login");
   };
 
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+
   if (isAuthPage) {
     return null;
   }
@@ -31,9 +35,11 @@ export const AppHeader: React.FC = () => {
 
       <div className={styles.actions}>
         {user && (
-          <Typography variant="caption" className={styles.userInfo}>
-            {user.firstName} {user.lastName}
-          </Typography>
+          <button className={styles.userButton} onClick={handleProfileClick}>
+            <Typography variant="caption" className={styles.userInfo}>
+              {user.firstName} {user.lastName}
+            </Typography>
+          </button>
         )}
         <Button variant="text" size="medium" onClick={handleLogout}>
           Выйти
