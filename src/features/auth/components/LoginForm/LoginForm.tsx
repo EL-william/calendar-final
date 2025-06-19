@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input, Button } from "@/shared/ui";
 import { Typography } from "@/shared/Typography/Typography";
-import { useAppDispatch, useAppSelector } from "../../../../app/store/hooks";
-import { loginUser, clearError } from "../../../../app/store/authSlice";
+import { loginUser } from "@/shared/auth/authStorage";
 import styles from "./LoginForm.module.scss";
 
 interface LoginFormData {
@@ -13,31 +12,14 @@ interface LoginFormData {
 
 export const LoginForm: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const {
-    isLoading,
-    error: serverError,
-    isAuthenticated,
-  } = useAppSelector((state) => state.auth);
 
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState<Partial<LoginFormData>>({});
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/calendar");
-    }
-  }, [isAuthenticated, navigate]);
-
-  useEffect(() => {
-    // Очищаем ошибку при размонтировании компонента
-    return () => {
-      dispatch(clearError());
-    };
-  }, [dispatch]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const handleInputChange =
     (field: keyof LoginFormData) =>
@@ -56,7 +38,7 @@ export const LoginForm: React.FC = () => {
       }
 
       if (serverError) {
-        dispatch(clearError());
+        setServerError(null);
       }
     };
 
@@ -66,7 +48,7 @@ export const LoginForm: React.FC = () => {
     if (!formData.email) {
       newErrors.email = "Введите email";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Введите корре��тный email";
+      newErrors.email = "Введите корректный email";
     }
 
     if (!formData.password) {
@@ -82,12 +64,21 @@ export const LoginForm: React.FC = () => {
 
     if (!validateForm()) return;
 
+    setIsLoading(true);
+    setServerError(null);
+
     try {
-      await dispatch(loginUser(formData)).unwrap();
-      // Переход на календарь произойдет авт��матически через useEffect
+      const result = await loginUser(formData);
+
+      if (result.success) {
+        navigate("/calendar");
+      } else {
+        setServerError(result.message || "Ошибка входа");
+      }
     } catch (error) {
-      // Ошибка уже обработана в Redux
-      console.error("Login error:", error);
+      setServerError("Произошла ошибка. Попробуйте снова.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
