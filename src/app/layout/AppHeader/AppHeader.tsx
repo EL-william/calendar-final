@@ -1,24 +1,20 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/shared/ui";
 import { Typography } from "@/shared/Typography/Typography";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { logoutUser } from "../../store/authSlice";
+import { getCurrentUser, logoutUser } from "@/shared/auth/authStorage";
 import styles from "./AppHeader.module.scss";
 
 export const AppHeader: React.FC = () => {
   const location = useLocation();
-  const dispatch = useAppDispatch();
-  const { user, isLoading } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const user = getCurrentUser();
 
   const isAuthPage = ["/login", "/register"].includes(location.pathname);
 
-  const handleLogout = async () => {
-    try {
-      await dispatch(logoutUser()).unwrap();
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/login");
   };
 
   if (isAuthPage) {
@@ -39,13 +35,8 @@ export const AppHeader: React.FC = () => {
             {user.firstName} {user.lastName}
           </Typography>
         )}
-        <Button
-          variant="text"
-          size="medium"
-          onClick={handleLogout}
-          disabled={isLoading}
-        >
-          {isLoading ? "Выход..." : "Выйти"}
+        <Button variant="text" size="medium" onClick={handleLogout}>
+          Выйти
         </Button>
       </div>
     </header>
