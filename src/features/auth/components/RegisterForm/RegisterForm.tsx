@@ -131,7 +131,7 @@ export const RegisterForm: React.FC = () => {
         <Input
           type="text"
           label="Имя"
-          placeholder="Введите ваше ��мя"
+          placeholder="Введите ваше имя"
           value={formData.firstName}
           onChange={handleInputChange("firstName")}
           error={errors.firstName}
