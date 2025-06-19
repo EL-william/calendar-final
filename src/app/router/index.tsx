@@ -4,6 +4,7 @@ import { AppLayout } from "../layout/AppLayout";
 import { LoginPage } from "../../pages/LoginPage";
 import { RegisterPage } from "../../pages/RegisterPage";
 import { CalendarPage } from "../../pages/CalendarPage";
+import { UserProfilePage } from "../../pages/UserProfilePage";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRouter: React.FC = () => {
@@ -19,6 +20,14 @@ export const AppRouter: React.FC = () => {
             element={
               <ProtectedRoute>
                 <CalendarPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <UserProfilePage />
               </ProtectedRoute>
             }
           />
