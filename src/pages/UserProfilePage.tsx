@@ -22,8 +22,7 @@ export const UserProfilePage: React.FC = () => {
   }
 
   const handleEditProfile = () => {
-    // TODO: Реализовать редактирование профиля
-    console.log("Редактирование профиля");
+    navigate("/profile/edit");
   };
 
   return (
