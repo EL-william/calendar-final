@@ -17,12 +17,12 @@ export const UserProfileEditPage: React.FC = () => {
   const navigate = useNavigate();
   const user = getCurrentUser();
 
-  const [formData, setFormData] = useState<EditFormData>({
-    firstName: "",
-    lastName: "",
-    dateOfBirth: "",
-    phoneNumber: "",
-  });
+  const [formData, setFormData] = useState<EditFormData>(() => ({
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    dateOfBirth: user?.dateOfBirth || "",
+    phoneNumber: user?.phoneNumber || "",
+  }));
   const [errors, setErrors] = useState<Partial<EditFormData>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -90,7 +90,7 @@ export const UserProfileEditPage: React.FC = () => {
     if (formData.dateOfBirth) {
       const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
       if (!dateRegex.test(formData.dateOfBirth)) {
-        newErrors.dateOfBirth = "Введите дату в формате ГГ��Г-ММ-ДД";
+        newErrors.dateOfBirth = "Введите дату в формате ГГГГ-ММ-ДД";
       } else {
         const date = new Date(formData.dateOfBirth);
         const today = new Date();
