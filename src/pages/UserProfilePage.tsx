@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, Button } from "@/shared/ui";
 import { Typography } from "@/shared/Typography/Typography";
 import { getCurrentUser } from "@/shared/auth/authStorage";
@@ -6,6 +7,7 @@ import { User } from "lucide-react";
 import styles from "./UserProfilePage.module.scss";
 
 export const UserProfilePage: React.FC = () => {
+  const navigate = useNavigate();
   const user = getCurrentUser();
 
   if (!user) {
