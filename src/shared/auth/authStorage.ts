@@ -134,3 +134,43 @@ export const loginUser = (credentials: {
 export const logoutUser = (): void => {
   clearAuthData();
 };
+
+// Обновление данных пользователя
+export const updateUser = (
+  userId: string,
+  updates: Partial<
+    Pick<User, "firstName" | "lastName" | "dateOfBirth" | "phoneNumber">
+  >,
+): Promise<{ success: boolean; message?: string; user?: User }> => {
+  return new Promise((resolve) => {
+    const users = getUsers();
+    const authData = getAuthData();
+
+    // Найти пользователя в списке всех пользователей
+    const userIndex = users.findIndex((u) => u.id === userId);
+    if (userIndex === -1) {
+      resolve({ success: false, message: "Пользователь не найден" });
+      return;
+    }
+
+    // Обновить данные пользователя
+    const updatedUser: User = {
+      ...users[userIndex],
+      ...updates,
+    };
+
+    // Сохранить обновленного пользователя в списке
+    users[userIndex] = updatedUser;
+    setUsers(users);
+
+    // Если это текущий авторизованный пользователь, обновить authData
+    if (authData && authData.user.id === userId) {
+      setAuthData({
+        user: updatedUser,
+        isAuthenticated: true,
+      });
+    }
+
+    resolve({ success: true, user: updatedUser });
+  });
+};
