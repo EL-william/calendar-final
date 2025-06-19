@@ -32,6 +32,31 @@
   flex-wrap: wrap;
 }
 
+.customTest {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.customTestTitle {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #856404;
+}
+
+.customTestControls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.endpointInput {
+  flex: 1;
+  min-width: 300px;
+}
+
 .results {
   background-color: #f8f9fa;
   border: 1px solid #e8eaed;

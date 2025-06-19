@@ -1,12 +1,19 @@
 import React, { useState } from "react";
-import { Button } from "../../shared/ui";
+import { Button, Input } from "../../shared/ui";
 import { Typography } from "../../shared/Typography/Typography";
 import { testApiConnection, checkServerHealth } from "../../shared/api/testApi";
+import {
+  diagnoseApiConnection,
+  testSpecificEndpoint,
+} from "../../shared/api/diagnostics";
 import styles from "./ApiTester.module.scss";
 
 export const ApiTester: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<string[]>([]);
+  const [customEndpoint, setCustomEndpoint] = useState(
+    "http://localhost:8080/auth/api/v1/register",
+  );
 
   const addResult = (message: string) => {
     setResults((prev) => [
@@ -51,6 +58,48 @@ export const ApiTester: React.FC = () => {
     addResult("💡 Попробуйте зарегистрировать нового пользователя через форму");
   };
 
+  const handleFullDiagnosis = async () => {
+    setIsLoading(true);
+    addResult("🔍 Запускаем полную диагностику API...");
+
+    try {
+      const diagnosticResults = await diagnoseApiConnection();
+      diagnosticResults.forEach((result) => addResult(result));
+    } catch (error) {
+      addResult(`❌ Ошибка диагностики: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTestCustomEndpoint = async () => {
+    if (!customEndpoint.trim()) {
+      addResult("❌ Введите URL эндпоинта");
+      return;
+    }
+
+    setIsLoading(true);
+    addResult(`🎯 Тестируем эндпоинт: ${customEndpoint}`);
+
+    try {
+      const result = await testSpecificEndpoint(customEndpoint);
+      if (result.success) {
+        addResult(`✅ Эндпоинт работает! Статус: ${result.status}`);
+        addResult(`📄 Ответ: ${JSON.stringify(result.data)}`);
+      } else {
+        addResult(`❌ Эндпоинт не работает. Статус: ${result.status}`);
+        addResult(`📄 Ошибка: ${result.error}`);
+        if (result.data) {
+          addResult(`📄 Данные: ${JSON.stringify(result.data)}`);
+        }
+      }
+    } catch (error) {
+      addResult(`❌ Ошибка тестирования: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className={styles.tester}>
       <Typography variant="h3" className={styles.title}>
@@ -73,7 +122,16 @@ export const ApiTester: React.FC = () => {
           onClick={handleTestConnection}
           disabled={isLoading}
         >
-          {isLoading ? "Тестируем..." : "🔍 Тест API"}
+          {isLoading ? "Тестируем..." : "🔍 Быстрый тест"}
+        </Button>
+
+        <Button
+          variant="primary"
+          size="medium"
+          onClick={handleFullDiagnosis}
+          disabled={isLoading}
+        >
+          🩺 Полная диагностика
         </Button>
 
         <Button variant="secondary" size="medium" onClick={handleTestForm}>
@@ -83,6 +141,28 @@ export const ApiTester: React.FC = () => {
         <Button variant="text" size="medium" onClick={clearResults}>
           🗑️ Очистить
         </Button>
+      </div>
+
+      <div className={styles.customTest}>
+        <Typography variant="caption" className={styles.customTestTitle}>
+          Тест конкретного эндпоинта:
+        </Typography>
+        <div className={styles.customTestControls}>
+          <Input
+            value={customEndpoint}
+            onChange={(e) => setCustomEndpoint(e.target.value)}
+            placeholder="http://localhost:8080/register"
+            className={styles.endpointInput}
+          />
+          <Button
+            variant="secondary"
+            size="medium"
+            onClick={handleTestCustomEndpoint}
+            disabled={isLoading}
+          >
+            🎯 Тест
+          </Button>
+        </div>
       </div>
 
       <div className={styles.results}>
