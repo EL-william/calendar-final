@@ -21,17 +21,21 @@ export const AppHeader: React.FC = () => {
     navigate("/profile");
   };
 
+  const handleBrandClick = () => {
+    navigate("/calendar");
+  };
+
   if (isAuthPage) {
     return null;
   }
 
   return (
     <header className={styles.header}>
-      <div className={styles.brand}>
+      <button className={styles.brandButton} onClick={handleBrandClick}>
         <Typography variant="h3" className={styles.brandText}>
           Calendorny
         </Typography>
-      </div>
+      </button>
 
       <div className={styles.actions}>
         {user && (
