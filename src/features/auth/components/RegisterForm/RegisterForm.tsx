@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input, Button } from "@/shared/ui";
 import { Typography } from "@/shared/Typography/Typography";
-import { RegisterFormData } from "../../types";
-import { authService } from "../../services/authService";
+import { useAppDispatch, useAppSelector } from "../../../../app/store/hooks";
+import { registerUser, clearError } from "../../../../app/store/authSlice";
 import styles from "./RegisterForm.module.scss";
+
+interface RegisterFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 
 export const RegisterForm: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isLoading, error: serverError } = useAppSelector(
+    (state) => state.auth,
+  );
+
   const [formData, setFormData] = useState<RegisterFormData>({
     firstName: "",
     lastName: "",
@@ -15,8 +27,14 @@ export const RegisterForm: React.FC = () => {
     password: "",
   });
   const [errors, setErrors] = useState<Partial<RegisterFormData>>({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [serverError, setServerError] = useState<string>("");
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+
+  useEffect(() => {
+    // Очищаем ошибку при размонтировании компонента
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
 
   const handleInputChange =
     (field: keyof RegisterFormData) =>
@@ -35,7 +53,7 @@ export const RegisterForm: React.FC = () => {
       }
 
       if (serverError) {
-        setServerError("");
+        dispatch(clearError());
       }
     };
 
@@ -75,20 +93,16 @@ export const RegisterForm: React.FC = () => {
 
     if (!validateForm()) return;
 
-    setIsLoading(true);
-    setServerError("");
-
     try {
-      const user = await authService.register(formData);
-      console.log("Успешная регистрация:", user);
-      // Переход на страницу календаря после успешной регистрации
-      navigate("/calendar");
+      await dispatch(registerUser(formData)).unwrap();
+      setRegistrationSuccess(true);
+      // Показываем сообщение об успешной регистрации
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (error) {
-      setServerError(
-        error instanceof Error ? error.message : "Произошла ошибка",
-      );
-    } finally {
-      setIsLoading(false);
+      // Ошибка уже обработана в Redux
+      console.error("Registration error:", error);
     }
   };
 
@@ -109,6 +123,12 @@ export const RegisterForm: React.FC = () => {
         </Typography>
 
         {serverError && <div className={styles.serverError}>{serverError}</div>}
+
+        {registrationSuccess && (
+          <div className={styles.successMessage}>
+            Регистрация успешна! Перенаправляем на страницу входа...
+          </div>
+        )}
 
         <Input
           type="text"

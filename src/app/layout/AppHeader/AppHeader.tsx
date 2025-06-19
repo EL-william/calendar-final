@@ -1,19 +1,24 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/shared/ui";
 import { Typography } from "@/shared/Typography/Typography";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { logoutUser } from "../../store/authSlice";
 import styles from "./AppHeader.module.scss";
 
 export const AppHeader: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { user, isLoading } = useAppSelector((state) => state.auth);
 
   const isAuthPage = ["/login", "/register"].includes(location.pathname);
 
-  const handleLogout = () => {
-    // Здесь должна быть логика выхода из системы
-    console.log("Выход из системы");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   if (isAuthPage) {
@@ -29,8 +34,18 @@ export const AppHeader: React.FC = () => {
       </div>
 
       <div className={styles.actions}>
-        <Button variant="text" size="medium" onClick={handleLogout}>
-          Выйти
+        {user && (
+          <Typography variant="caption" className={styles.userInfo}>
+            {user.firstName} {user.lastName}
+          </Typography>
+        )}
+        <Button
+          variant="text"
+          size="medium"
+          onClick={handleLogout}
+          disabled={isLoading}
+        >
+          {isLoading ? "Выход..." : "Выйти"}
         </Button>
       </div>
     </header>
